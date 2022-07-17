@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,15 +23,18 @@ public class WorkingWithStreams {
                 new Cat(),
                 new Cat("red"),
                 new Cat("grey", "Barsic"),
-                new Cat("Murzic", "pantera", 6));
+                new Cat("Murzic", "pantera", 6),
+                new Cat("kosmos", "pantera", 4)
+        );
+
         List<Dog> dogList = rechengeCats(catList);
         System.out.println(dogList);
 
-        CatShow catShow1 = new CatShow("Wild_Cat_Show", "Chicago", LocalDate.now());
-        CatShow catShow2 = new CatShow("SuperCat", "Muhosransk", LocalDate.of(2022, 1, 21));
-        CatShow catShow3 = new CatShow("konopes", "Moscow", LocalDate.now());
-        CatShow catShow4 = new CatShow("Wild_Cat_Show", "Moscow", LocalDate.now());
-        CatShow catShow5 = new CatShow("Cat_Show", "Chicago", LocalDate.now());
+        CatShow catShow1 = new CatShow("Wild_Cat_Show", "Chicago", LocalDate.of(2022, 6, 14));
+        CatShow catShow2 = new CatShow("SuperCat", "Muhosransk", LocalDate.of(2022, 6, 21));
+        CatShow catShow3 = new CatShow("konopes", "Moscow", LocalDate.of(2022, 7, 12));
+        CatShow catShow4 = new CatShow("Wild_Cat_Show", "Moscow", LocalDate.of(2022, 6, 10));
+        CatShow catShow5 = new CatShow("Cat_Show", "Chicago", LocalDate.of(2022, 4, 1));
         CatShow catShow6 = new CatShow("WildShow", "Chicago", LocalDate.now());
 
 
@@ -43,13 +47,17 @@ public class WorkingWithStreams {
         catList.get(2).addCatShow(catShow4);
         catList.get(2).addCatShow(catShow5);
         catList.get(2).addCatShow(catShow1);
-
         catList.get(3).addCatShow(catShow2);
         catList.get(3).addCatShow(catShow6);
         catList.get(3).addCatShow(catShow5);
+        catList.get(4).addCatShow(catShow2);
+        catList.get(4).addCatShow(catShow3);
 
         List<Cat> catList2 = filterCat2(catList);
         System.out.println(catList2);
+
+        List<CatShow> catShowList3 = filterCat3(catList);
+        System.out.println(catShowList3);
     }
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
@@ -86,4 +94,24 @@ public class WorkingWithStreams {
                 .toList();
 
     }
+
+    //написать метод, принимающий список котов, а возвращающий список выставок на которых были коты с породой пантера
+    // и которые прходили в период с 01.06.22 по 01.07.22
+    public static List<CatShow> filterCat3(List<Cat> catList) {
+        return catList.stream()
+                .filter(cat -> cat.getBreed().equals("pantera")) //Фильтр по имени
+                .map(Cat::getCatShowList)
+                //Преобразовали в стрим из  списков котошоу
+                .flatMap(Collection::stream)
+                //раскрыли списки в общий стрим
+                .filter(catShow -> catShow.getDate().isAfter(LocalDate.of(2022, 6, 1))
+                        && catShow.getDate().isBefore(LocalDate.of(2022, 6, 30)))
+                // олфильтровали по дате
+                .distinct() // проверили записи на уникальность
+                .toList();
+
+    }
+
+    // Создать метод, принимающий список котов и возвращает одного кота с самым коротким именем.
+    // Создать метод, принимающий список выставок и возвращает 3 самые последние по дате выставки
 }

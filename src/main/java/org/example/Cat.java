@@ -10,8 +10,9 @@ import java.util.List;
 
 @NoArgsConstructor
 class Cat extends Animal {
-
-    private String breed = null;
+    @Getter
+    @Setter
+    private String breed = "pers";
     @Setter
     @Getter
     private List<CatShow> catShowList = new ArrayList<>();

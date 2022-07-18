@@ -37,6 +37,8 @@ public class WorkingWithStreams {
         CatShow catShow5 = new CatShow("Cat_Show", "Chicago", LocalDate.of(2022, 4, 1));
         CatShow catShow6 = new CatShow("WildShow", "Chicago", LocalDate.now());
 
+        List<CatShow> catShowList = List.of(catShow1, catShow2, catShow3, catShow4, catShow5, catShow6);
+
 
         catList.get(0).addCatShow(catShow1);
         catList.get(0).addCatShow(catShow3);
@@ -58,6 +60,12 @@ public class WorkingWithStreams {
 
         List<CatShow> catShowList3 = filterCat3(catList);
         System.out.println(catShowList3);
+
+        Cat shotNameCat = filterCat4(catList);
+        System.out.println(shotNameCat);
+
+        List<CatShow> showListByDate = filterCatShowByDate(catShowList);
+        System.out.println(showListByDate);
     }
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
@@ -113,5 +121,19 @@ public class WorkingWithStreams {
     }
 
     // Создать метод, принимающий список котов и возвращает одного кота с самым коротким именем.
+
+    public static Cat filterCat4(List<Cat> catList) {
+        return catList.stream()
+                .min((o1, o2) -> new Comparator().compareTo(o1, o2))
+                .orElseThrow();
+    }
+
     // Создать метод, принимающий список выставок и возвращает 3 самые последние по дате выставки
+    public static List<CatShow> filterCatShowByDate(List<CatShow> catShowList){
+        return catShowList.stream()
+                .sorted((o1, o2) -> new Comparator().compareTo(o1, o2))
+                .skip((long)catShowList.size() - 3L)
+                .toList();
+    }
+
 }

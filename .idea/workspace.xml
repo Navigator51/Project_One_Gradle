@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="метод, фильтрующий список из списков">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Comparator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Comparator1.java" afterDir="false" />
+    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="cоздал компараторы и методы, сортирующие по дате">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/CatComparator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Comparator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Comparator1.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +98,8 @@
       <workItem from="1657918627347" duration="3171000" />
       <workItem from="1657995086507" duration="8905000" />
       <workItem from="1658082018878" duration="6627000" />
-      <workItem from="1658154525875" duration="7638000" />
+      <workItem from="1658154525875" duration="17589000" />
+      <workItem from="1658228703761" duration="14505000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен метод фильтрации котов по признакам, находящимся во вложенном объекте">
       <created>1658003638217</created>
@@ -119,7 +122,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658088640301</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="cоздал компараторы и методы, сортирующие по дате">
+      <created>1658164448771</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658164448771</updated>
+    </task>
+    <task id="LOCAL-00005" summary="cоздал компараторы и методы, сортирующие по дате">
+      <created>1658165566099</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1658165566099</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,7 +156,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Добавлен метод фильтрации котов по признакам, находящимся во вложенном объекте" />
     <MESSAGE value="метод, фильтрующий список из списков" />
-    <option name="LAST_COMMIT_MESSAGE" value="метод, фильтрующий список из списков" />
+    <MESSAGE value="cоздал компараторы и методы, сортирующие по дате" />
+    <option name="LAST_COMMIT_MESSAGE" value="cоздал компараторы и методы, сортирующие по дате" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -151,13 +169,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
-          <line>59</line>
+          <line>61</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
-          <line>62</line>
+          <line>64</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -75,6 +75,12 @@ public class WorkingWithStreams {
 
         Map<String, LocalDate> mapa = votTeMapa(catShowList);
         System.out.println("А вот и мапа " +  mapa);
+
+        Map<String,List<CatShow>> mapa2 = mapa4(catList);
+        System.out.println(mapa2);
+
+        Map<Cat, Integer> mapa3 = mapa3(catList);
+        System.out.println(mapa3);
     }
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
@@ -118,13 +124,14 @@ public class WorkingWithStreams {
         return catList.stream()
                 .filter(cat -> cat.getBreed().equals("pantera")) //Фильтр по имени
                 .map(Cat::getCatShowList)
-                //Преобразовали в стрим из  списков котошоу
+                                                //Преобразовали в стрим из  списков котошоу
                 .flatMap(Collection::stream)
-                //раскрыли списки в общий стрим
+                                                //раскрыли списки в общий стрим
                 .filter(catShow -> catShow.getDate().isAfter(LocalDate.of(2022, 6, 1))
                         && catShow.getDate().isBefore(LocalDate.of(2022, 6, 30)))
-                // олфильтровали по дате
-                .distinct() // проверили записи на уникальность
+                                                // олфильтровали по дате
+                .distinct()
+                                                // проверили записи на уникальность
                 .toList();
 
     }
@@ -150,11 +157,11 @@ public class WorkingWithStreams {
 
     public static int sumPrize(List<Cat> catList){
         return catList.stream()
-                .flatMap(Cat -> Stream.of(Cat.getCatShowList()))
+                .map(Cat::getCatShowList)
                 .flatMap(Collection::stream)
                 .distinct()
-                .map(CatShow::getPrizeSize)
-                .reduce(0, Integer::sum);
+                .mapToInt(CatShow::getPrizeSize)
+                .sum();
 
     }
 
@@ -164,7 +171,7 @@ public class WorkingWithStreams {
         return Math.round(
                 catList.stream()
                                     //открыли стрим
-                .flatMap(Cat -> Stream.of(Cat.getCatShowList()))
+                .map(Cat::getCatShowList)
                                     //создали внутренний стрим из списков
                 .flatMap(Collection::stream)
                                     //вернули (объединили) в общий стрим
@@ -190,4 +197,55 @@ public class WorkingWithStreams {
         catShowList.forEach(CatShow ->  mapa.put(CatShow.getShowName(), CatShow.getDate()));
         return mapa;
     }
+    public static Map<String, LocalDate> votTeMapa1(List<CatShow> catShowList){
+        return catShowList.stream()
+                .collect(Collectors.toMap(CatShow::getShowName, CatShow::getDate));
+    }
+
+    // Принимаем список котов, а возвращаем мапу, в которой ключ имя выставки, а значение список выставок с этим именем
+    public  static Map<String,List<CatShow>> mapa2(List<Cat> catList) {
+
+        return catList.stream()
+                .map(Cat::getCatShowList)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toMap(CatShow::getShowName,
+                        catShow ->  catList.stream()
+                                .map(Cat::getCatShowList)
+                                .flatMap(Collection::stream)
+                                .distinct()
+                                .filter(a -> a.getShowName().equals(catShow.getShowName()))
+                                .toList(), (oldListCatShow, newListCatShow) -> {
+                        ArrayList <CatShow> sumCatShow = new ArrayList<>(oldListCatShow);
+                                sumCatShow.addAll(newListCatShow);
+                                return sumCatShow;
+                        }));
+
+    }
+    // Принимаем список котов, а возвращаем мапу, где ключ объект кот, а значение сумма призов всех выставок,
+    // на которых был этот кот
+
+    public static Map<Cat, Integer> mapa3(List<Cat> catList){
+        return catList.stream()
+                .collect(Collectors.toMap(cat -> cat, cat -> cat.getCatShowList().stream()
+                        .map(CatShow::getPrizeSize)
+                        .mapToInt(value -> value)
+                        .sum()));
+    }
+
+    public  static Map<String,List<CatShow>> mapa4(List<Cat> catList) {
+
+        return catList.stream()
+                .map(Cat::getCatShowList)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.groupingBy(CatShow::getShowName));
+    }
+
+    // Получить список кошачих выставок и вернуть одну выставку, у которой приз будет суммой всех призов,
+    // имя составлено из первых букв названий всех выставок,
+    // дата - средняя дата проведения всех,
+    // место - составлен из двух последних букв каждого города, приведённых к верхнему регистру
+
+
 }

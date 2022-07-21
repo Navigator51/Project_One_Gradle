@@ -1,8 +1,11 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.time.Period;
 import java.util.stream.Stream;
 
 public class WorkingWithStreams {
@@ -74,13 +77,16 @@ public class WorkingWithStreams {
         System.out.println("В среднем по Москве за выставку " + middlePrise + " рубликов");
 
         Map<String, LocalDate> mapa = votTeMapa(catShowList);
-        System.out.println("А вот и мапа " +  mapa);
+        System.out.println("А вот и мапа " + mapa);
 
-        Map<String,List<CatShow>> mapa2 = mapa4(catList);
+        Map<String, List<CatShow>> mapa2 = mapa4(catList);
         System.out.println(mapa2);
 
         Map<Cat, Integer> mapa3 = mapa3(catList);
         System.out.println(mapa3);
+
+        CatShow middleCatShow = analiticCatShow(catShowList);
+        System.out.println(middleCatShow);
     }
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
@@ -124,14 +130,14 @@ public class WorkingWithStreams {
         return catList.stream()
                 .filter(cat -> cat.getBreed().equals("pantera")) //Фильтр по имени
                 .map(Cat::getCatShowList)
-                                                //Преобразовали в стрим из  списков котошоу
+                //Преобразовали в стрим из  списков котошоу
                 .flatMap(Collection::stream)
-                                                //раскрыли списки в общий стрим
+                //раскрыли списки в общий стрим
                 .filter(catShow -> catShow.getDate().isAfter(LocalDate.of(2022, 6, 1))
                         && catShow.getDate().isBefore(LocalDate.of(2022, 6, 30)))
-                                                // олфильтровали по дате
+                // олфильтровали по дате
                 .distinct()
-                                                // проверили записи на уникальность
+                // проверили записи на уникальность
                 .toList();
 
     }
@@ -140,13 +146,13 @@ public class WorkingWithStreams {
 
     public static Cat filterCat4(List<Cat> catList) {
         Optional<Cat> cat = catList.stream()
-                            .min((o1, o2) -> new CatComparator().compare(o1, o2));
-        cat.ifPresentOrElse(System.out::println, ()-> System.out.println("conteiner is empty"));
+                .min((o1, o2) -> new CatComparator().compare(o1, o2));
+        cat.ifPresentOrElse(System.out::println, () -> System.out.println("conteiner is empty"));
         return new Cat();
     }
 
     // Создать метод, принимающий список выставок и возвращает 3 самые последние по дате выставки
-    public static List<CatShow> filterCatShowByDate(List<CatShow> catShowList){
+    public static List<CatShow> filterCatShowByDate(List<CatShow> catShowList) {
         return catShowList.stream()
                 .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate())) // Обратная сортировка заменой о1 и о2
                 .limit(3L)
@@ -155,7 +161,7 @@ public class WorkingWithStreams {
 
     // Вывести сумму размеров призов для всех кошачих выставок. метод должен принимить список котов.
 
-    public static int sumPrize(List<Cat> catList){
+    public static int sumPrize(List<Cat> catList) {
         return catList.stream()
                 .map(Cat::getCatShowList)
                 .flatMap(Collection::stream)
@@ -167,65 +173,66 @@ public class WorkingWithStreams {
 
     // Вывести среднее значение размеров призов московских кошачих выставок. метод должен принимать список котов
 
-    public static long middlePrizeInMoscow(List<Cat> catList){
+    public static long middlePrizeInMoscow(List<Cat> catList) {
         return Math.round(
                 catList.stream()
-                                    //открыли стрим
-                .map(Cat::getCatShowList)
-                                    //создали внутренний стрим из списков
-                .flatMap(Collection::stream)
-                                    //вернули (объединили) в общий стрим
-                .distinct()
-                                    //проверили элементы на уникальность
-                .filter(CatShow -> CatShow.getPlace().equals("Moscow"))
-                                    //отфильтровали московские
-                .map(CatShow::getPrizeSize)
-                                    //добыли из элементов нужные данные
-                .mapToInt(value -> value)
-                                    //преобразовали в поток простых чисел
-                .average()
-                                    //вычислили среднее арифметическое
-                .orElse(0));
-                                    // вернули итоговое значение и закрыли стрим
+                        //открыли стрим
+                        .map(Cat::getCatShowList)
+                        //создали внутренний стрим из списков
+                        .flatMap(Collection::stream)
+                        //вернули (объединили) в общий стрим
+                        .distinct()
+                        //проверили элементы на уникальность
+                        .filter(CatShow -> CatShow.getPlace().equals("Moscow"))
+                        //отфильтровали московские
+                        .map(CatShow::getPrizeSize)
+                        //добыли из элементов нужные данные
+                        .mapToInt(value -> value)
+                        //преобразовали в поток простых чисел
+                        .average()
+                        //вычислили среднее арифметическое
+                        .orElse(0));
+        // вернули итоговое значение и закрыли стрим
     }
 
     // надо принять список выставок, а возвращать мапу, где ключ имя выставки, а значением дата проведения
-    public static Map<String, LocalDate> votTeMapa(List<CatShow> catShowList){
+    public static Map<String, LocalDate> votTeMapa(List<CatShow> catShowList) {
 
         Map<String, LocalDate> mapa = new HashMap<>();
 
-        catShowList.forEach(CatShow ->  mapa.put(CatShow.getShowName(), CatShow.getDate()));
+        catShowList.forEach(CatShow -> mapa.put(CatShow.getShowName(), CatShow.getDate()));
         return mapa;
     }
-    public static Map<String, LocalDate> votTeMapa1(List<CatShow> catShowList){
+
+    public static Map<String, LocalDate> votTeMapa1(List<CatShow> catShowList) {
         return catShowList.stream()
                 .collect(Collectors.toMap(CatShow::getShowName, CatShow::getDate));
     }
 
     // Принимаем список котов, а возвращаем мапу, в которой ключ имя выставки, а значение список выставок с этим именем
-    public  static Map<String,List<CatShow>> mapa2(List<Cat> catList) {
+    public static Map<String, List<CatShow>> mapa2(List<Cat> catList) {
 
         return catList.stream()
                 .map(Cat::getCatShowList)
                 .flatMap(Collection::stream)
                 .distinct()
                 .collect(Collectors.toMap(CatShow::getShowName,
-                        catShow ->  catList.stream()
+                        catShow -> catList.stream()
                                 .map(Cat::getCatShowList)
                                 .flatMap(Collection::stream)
                                 .distinct()
                                 .filter(a -> a.getShowName().equals(catShow.getShowName()))
                                 .toList(), (oldListCatShow, newListCatShow) -> {
-                        ArrayList <CatShow> sumCatShow = new ArrayList<>(oldListCatShow);
-                                sumCatShow.addAll(newListCatShow);
-                                return sumCatShow;
+                            ArrayList<CatShow> sumCatShow = new ArrayList<>(oldListCatShow);
+                            sumCatShow.addAll(newListCatShow);
+                            return sumCatShow;
                         }));
 
     }
     // Принимаем список котов, а возвращаем мапу, где ключ объект кот, а значение сумма призов всех выставок,
     // на которых был этот кот
 
-    public static Map<Cat, Integer> mapa3(List<Cat> catList){
+    public static Map<Cat, Integer> mapa3(List<Cat> catList) {
         return catList.stream()
                 .collect(Collectors.toMap(cat -> cat, cat -> cat.getCatShowList().stream()
                         .map(CatShow::getPrizeSize)
@@ -233,7 +240,7 @@ public class WorkingWithStreams {
                         .sum()));
     }
 
-    public  static Map<String,List<CatShow>> mapa4(List<Cat> catList) {
+    public static Map<String, List<CatShow>> mapa4(List<Cat> catList) {
 
         return catList.stream()
                 .map(Cat::getCatShowList)
@@ -247,5 +254,45 @@ public class WorkingWithStreams {
     // дата - средняя дата проведения всех,
     // место - составлен из двух последних букв каждого города, приведённых к верхнему регистру
 
+    public static CatShow analiticCatShow(List<CatShow> catShowList) {
 
+        CatShow middleCatShow = new CatShow();
+
+        middleCatShow.setShowName(catShowList.stream()
+                .map(CatShow::getShowName)
+                        .distinct()
+                        .reduce("", (a, b)-> ( a += b.charAt(0))));
+
+        middleCatShow.setPrizeSize(catShowList.stream()
+                .mapToInt(CatShow::getPrizeSize)
+                .sum());
+
+                            // Находим самую раннюю дату выставки
+        LocalDate minDate = (catShowList.stream()
+                .map(CatShow::getDate)
+                .min(LocalDate::compareTo)
+                .orElseThrow());
+
+                            // Находим самую позднюю дату выставки
+        LocalDate maxDate = (catShowList.stream()
+                .map(CatShow::getDate)
+                .max(LocalDate::compareTo)
+                .orElseThrow());
+
+
+        Period period= Period.between(minDate, maxDate) ;   // вычисляем период проведения выставок(YY,MM,DD)
+        long halfPeriodInDays =  period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
+
+        LocalDate middleDate = minDate.plusDays(halfPeriodInDays);    // находим среднюю дату проведения выставок
+
+        middleCatShow.setDate(middleDate);
+
+        middleCatShow.setPlace(catShowList.stream()
+                .map(CatShow::getPlace)
+                .distinct()
+                .reduce("", (a, b) -> a += b.substring(b.length()-2).toUpperCase()));
+
+        return middleCatShow;
+
+    }
 }

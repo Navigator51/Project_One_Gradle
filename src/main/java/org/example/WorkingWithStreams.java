@@ -25,7 +25,7 @@ public class WorkingWithStreams {
                 "kotlin",
                 "cat");
         List<String> result = filterCat(stringList);
-        out.println("Список строк без строки кот " + result);
+        System.out.println("Список строк без строки кот " + result);
 
         List<Cat> catList = List.of(
                 new Cat(),
@@ -36,7 +36,7 @@ public class WorkingWithStreams {
         );
 
         List<Dog> dogList = rechengeCats(catList);
-        out.println("Вoт список котов превратили в список собак " + dogList);
+        System.out.println("Вoт список котов превратили в список собак " + dogList);
 
         CatShow catShow1 = new CatShow("Wild_Cat_Show", "Chicago", LocalDate.of(2022, 6, 14), 10000);
         CatShow catShow2 = new CatShow("SuperCat", "Muhosransk", LocalDate.of(2022, 6, 21), 15200);
@@ -64,31 +64,31 @@ public class WorkingWithStreams {
         catList.get(4).addCatShow(catShow3);
 
         List<Cat> catList2 = filterCat2(catList);
-        out.println(catList2);
+        System.out.println(catList2);
 
         List<CatShow> catShowList3 = filterCat3(catList);
-        out.println(catShowList3);
+        System.out.println(catShowList3);
 
         Cat shotNameCat = filterCat4(catList);
-        out.println(shotNameCat);
+        System.out.println(shotNameCat);
 
         List<CatShow> showListByDate = filterCatShowByDate(catShowList);
-        out.println(showListByDate);
+        System.out.println(showListByDate);
 
         int summPrizes = sumPrize(catList);
-        out.println("Банк всех выставок равен " + summPrizes + " рубликов");
+        System.out.println("Банк всех выставок равен " + summPrizes + " рубликов");
 
         long middlePrise = middlePrizeInMoscow(catList);
-        out.println("В среднем по Москве за выставку " + middlePrise + " рубликов");
+        System.out.println("В среднем по Москве за выставку " + middlePrise + " рубликов");
 
         Map<String, LocalDate> mapa = votTeMapa(catShowList);
-        out.println("А вот и мапа " + mapa);
+        System.out.println("А вот и мапа " + mapa);
 
         Map<String, List<CatShow>> mapa2 = mapa4(catList);
-        out.println(mapa2);
+        System.out.println(mapa2);
 
         Map<Cat, Integer> mapa3 = mapa3(catList);
-        out.println(mapa3);
+        System.out.println(mapa3);
 
         CatShow middleCatShow = analiticCatShow(catShowList);
         out.println(middleCatShow);
@@ -104,7 +104,6 @@ public class WorkingWithStreams {
         out.println("Список ключей " + catMap.keySet());
         out.println("Список значений " + catMap.values());
     }
-
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
     private static List<String> filterCat(List<String> stringList) {
@@ -164,7 +163,7 @@ public class WorkingWithStreams {
     public static Cat filterCat4(List<Cat> catList) {
         Optional<Cat> cat = catList.stream()
                 .min((o1, o2) -> new CatComparator().compare(o1, o2));
-        cat.ifPresentOrElse(out::println, () -> out.println("conteiner is empty"));
+        cat.ifPresentOrElse(System.out::println, () -> System.out.println("conteiner is empty"));
         return new Cat();
     }
 
@@ -277,28 +276,28 @@ public class WorkingWithStreams {
 
         middleCatShow.setShowName(catShowList.stream()
                 .map(CatShow::getShowName)
-                .distinct()
-                .reduce("", (a, b) -> (a += b.charAt(0))));
+                        .distinct()
+                        .reduce("", (a, b)-> ( a += b.charAt(0))));
 
         middleCatShow.setPrizeSize(catShowList.stream()
                 .mapToInt(CatShow::getPrizeSize)
                 .sum());
 
-        // Находим самую раннюю дату выставки
+                            // Находим самую раннюю дату выставки
         LocalDate minDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .min(LocalDate::compareTo)
                 .orElseThrow());
 
-        // Находим самую позднюю дату выставки
+                            // Находим самую позднюю дату выставки
         LocalDate maxDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .max(LocalDate::compareTo)
                 .orElseThrow());
 
 
-        Period period = Period.between(minDate, maxDate);   // вычисляем период проведения выставок(YY,MM,DD)
-        long halfPeriodInDays = period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
+        Period period= Period.between(minDate, maxDate) ;   // вычисляем период проведения выставок(YY,MM,DD)
+        long halfPeriodInDays =  period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
 
         LocalDate middleDate = minDate.plusDays(halfPeriodInDays);    // находим среднюю дату проведения выставок
 
@@ -307,7 +306,7 @@ public class WorkingWithStreams {
         middleCatShow.setPlace(catShowList.stream()
                 .map(CatShow::getPlace)
                 .distinct()
-                .reduce("", (a, b) -> a += getSubstringFromPlase(b).toUpperCase()));
+                .reduce("", (a, b) -> a += b.substring(b.length()-2).toUpperCase()));
 
         return middleCatShow;
 

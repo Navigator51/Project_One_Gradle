@@ -1,5 +1,7 @@
 package org.example;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
 import java.time.temporal.ChronoUnit;
@@ -8,6 +10,8 @@ import java.util.stream.Collectors;
 import java.time.Period;
 import java.util.stream.Stream;
 
+import static java.lang.System.out;
+@Data
 public class WorkingWithStreams {
 
     public static void main(String[] args) {
@@ -20,7 +24,7 @@ public class WorkingWithStreams {
                 "kotlin",
                 "cat");
         List<String> result = filterCat(stringList);
-        System.out.println("Список строк без строки кот " + result);
+        out.println("Список строк без строки кот " + result);
 
         List<Cat> catList = List.of(
                 new Cat(),
@@ -31,7 +35,7 @@ public class WorkingWithStreams {
         );
 
         List<Dog> dogList = rechengeCats(catList);
-        System.out.println("Вoт список котов превратили в список собак " + dogList);
+        out.println("Вoт список котов превратили в список собак " + dogList);
 
         CatShow catShow1 = new CatShow("Wild_Cat_Show", "Chicago", LocalDate.of(2022, 6, 14), 10000);
         CatShow catShow2 = new CatShow("SuperCat", "Muhosransk", LocalDate.of(2022, 6, 21), 15200);
@@ -59,35 +63,45 @@ public class WorkingWithStreams {
         catList.get(4).addCatShow(catShow3);
 
         List<Cat> catList2 = filterCat2(catList);
-        System.out.println(catList2);
+        out.println(catList2);
 
         List<CatShow> catShowList3 = filterCat3(catList);
-        System.out.println(catShowList3);
+        out.println(catShowList3);
 
         Cat shotNameCat = filterCat4(catList);
-        System.out.println(shotNameCat);
+        out.println(shotNameCat);
 
         List<CatShow> showListByDate = filterCatShowByDate(catShowList);
-        System.out.println(showListByDate);
+        out.println(showListByDate);
 
         int summPrizes = sumPrize(catList);
-        System.out.println("Банк всех выставок равен " + summPrizes + " рубликов");
+        out.println("Банк всех выставок равен " + summPrizes + " рубликов");
 
         long middlePrise = middlePrizeInMoscow(catList);
-        System.out.println("В среднем по Москве за выставку " + middlePrise + " рубликов");
+        out.println("В среднем по Москве за выставку " + middlePrise + " рубликов");
 
         Map<String, LocalDate> mapa = votTeMapa(catShowList);
-        System.out.println("А вот и мапа " + mapa);
+        out.println("А вот и мапа " + mapa);
 
         Map<String, List<CatShow>> mapa2 = mapa4(catList);
-        System.out.println(mapa2);
+        out.println(mapa2);
 
         Map<Cat, Integer> mapa3 = mapa3(catList);
-        System.out.println(mapa3);
+        out.println(mapa3);
 
         CatShow middleCatShow = analiticCatShow(catShowList);
-        System.out.println(middleCatShow);
+        out.println(middleCatShow);
+
+        Set<Cat> catSet = createSetCollections(catList);
+
+        List<Cat> catList1 = createCatList(catSet);
+        out.println("5-й элемент списка " + catList1.get(4));
+
+        Map<String, Cat> catMap = createMap(catList);
+        catMap.putIfAbsent("", new Cat());
+        out.println(catMap);
     }
+
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
     private static List<String> filterCat(List<String> stringList) {
@@ -147,7 +161,7 @@ public class WorkingWithStreams {
     public static Cat filterCat4(List<Cat> catList) {
         Optional<Cat> cat = catList.stream()
                 .min((o1, o2) -> new CatComparator().compare(o1, o2));
-        cat.ifPresentOrElse(System.out::println, () -> System.out.println("conteiner is empty"));
+        cat.ifPresentOrElse(out::println, () -> out.println("conteiner is empty"));
         return new Cat();
     }
 
@@ -260,28 +274,28 @@ public class WorkingWithStreams {
 
         middleCatShow.setShowName(catShowList.stream()
                 .map(CatShow::getShowName)
-                        .distinct()
-                        .reduce("", (a, b)-> ( a += b.charAt(0))));
+                .distinct()
+                .reduce("", (a, b) -> (a += b.charAt(0))));
 
         middleCatShow.setPrizeSize(catShowList.stream()
                 .mapToInt(CatShow::getPrizeSize)
                 .sum());
 
-                            // Находим самую раннюю дату выставки
+        // Находим самую раннюю дату выставки
         LocalDate minDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .min(LocalDate::compareTo)
                 .orElseThrow());
 
-                            // Находим самую позднюю дату выставки
+        // Находим самую позднюю дату выставки
         LocalDate maxDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .max(LocalDate::compareTo)
                 .orElseThrow());
 
 
-        Period period= Period.between(minDate, maxDate) ;   // вычисляем период проведения выставок(YY,MM,DD)
-        long halfPeriodInDays =  period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
+        Period period = Period.between(minDate, maxDate);   // вычисляем период проведения выставок(YY,MM,DD)
+        long halfPeriodInDays = period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
 
         LocalDate middleDate = minDate.plusDays(halfPeriodInDays);    // находим среднюю дату проведения выставок
 
@@ -290,9 +304,71 @@ public class WorkingWithStreams {
         middleCatShow.setPlace(catShowList.stream()
                 .map(CatShow::getPlace)
                 .distinct()
-                .reduce("", (a, b) -> a += b.substring(b.length()-2).toUpperCase()));
+                .reduce("", (a, b) -> a += getSubstringFromPlase(b).toUpperCase()));
 
         return middleCatShow;
 
+
+    }
+    // решение предыдущей задачи новым методом
+    public static CatShow catShowReduser(CatShow previousObj, CatShow currentObj) {
+        return new CatShow(
+                previousObj.getShowName() + getSubstringFromName(currentObj),
+                previousObj.getPlace() + getSubstringFromPlase(currentObj.getPlace()),
+                getMergedDate(previousObj, currentObj),
+                previousObj.getPrizeSize() + currentObj.getPrizeSize()
+        );
+    }
+
+    private static LocalDate getMergedDate(CatShow previousObj, CatShow currentObj) {
+        return previousObj.getDate().plusDays((Period.between(previousObj.getDate(),
+                currentObj.getDate()).get(ChronoUnit.DAYS)) / 2);
+    }
+
+    private static String getSubstringFromPlase(String previousObj) {
+        return previousObj.substring(previousObj.length() - 2);
+    }
+
+    private static String getSubstringFromName(CatShow previousObj) {
+        return previousObj.getShowName().substring(0, 1);
+    }
+
+    public static CatShow analiticCatShow1(List<CatShow> catShowList) {
+
+        return catShowList.stream()
+                .reduce(new CatShow("","",LocalDate.now(),0),WorkingWithStreams::catShowReduser);
+    }
+
+    // лист,сет и мап. создать каждый, в каждый добавить 10 элементов
+    // сет котов. удалить из сета всех котов с именем мурзик, вывести на консоль все элементы сета.
+    // получить и вывести на консоль 5й элемент списка, удалить повторяющиеся элементы.
+    // мапа. получить значение по ключу, получить из мапы отдельно список всех ключeй и список всех значений
+    // положить в мапу значение по ключу, который уже существует. найти метод, который не положит и не выдаст ошибку
+
+    public static Set<Cat> createSetCollections(List<Cat> catList){
+        Set<Cat> catSet = new HashSet<Cat>(catList);
+        catSet.add(new Cat("Brown","üyg", "pers"));
+        catSet.add(new Cat("pink", "shvaine"));
+        catSet.add(new Cat("black", "pirate"));
+        catSet.add(new Cat("white", "snowball"));
+
+         catSet.stream()
+                .filter(cat -> !cat.getName().equals("murzic"))
+                .forEachOrdered(out::println);
+
+        return catSet;
+    }
+
+    public static List<Cat> createCatList(Set<Cat> catSet){
+        return  new ArrayList<>(catSet);
+    }
+
+    public static Map<String, Cat> createMap(List<Cat> catList){
+
+        return catList.stream()
+                .collect(Collectors.toMap(cat -> catList.stream()
+                        .map(Cat::getName)
+                        .distinct()
+                        .toString(), cat -> cat));
     }
 }

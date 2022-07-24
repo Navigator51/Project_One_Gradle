@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="Задачи на потоковые вычисления и создание мапы из списка">
+    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="Map, Set, List">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +98,9 @@
       <workItem from="1658228703761" duration="18273000" />
       <workItem from="1658254007303" duration="3300000" />
       <workItem from="1658321553069" duration="13611000" />
-      <workItem from="1658414773919" duration="12753000" />
+      <workItem from="1658414773919" duration="13984000" />
+      <workItem from="1658515524442" duration="6989000" />
+      <workItem from="1658646735172" duration="18699000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен метод фильтрации котов по признакам, находящимся во вложенном объекте">
       <created>1658003638217</created>
@@ -150,7 +151,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658346839289</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Создание нового списка аналитикой полей имеющихся списков">
+      <created>1658428998767</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1658428998767</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Map, Set, List">
+      <created>1658661993163</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1658661993163</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,15 +187,17 @@
     <MESSAGE value="метод, фильтрующий список из списков" />
     <MESSAGE value="cоздал компараторы и методы, сортирующие по дате" />
     <MESSAGE value="Задачи на потоковые вычисления и создание мапы из списка" />
-    <option name="LAST_COMMIT_MESSAGE" value="Задачи на потоковые вычисления и создание мапы из списка" />
+    <MESSAGE value="Создание нового списка аналитикой полей имеющихся списков" />
+    <MESSAGE value="Map, Set, List" />
+    <option name="LAST_COMMIT_MESSAGE" value="Map, Set, List" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="16" />
+          <line>102</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

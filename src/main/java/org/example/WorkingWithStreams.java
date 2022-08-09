@@ -3,12 +3,10 @@ package org.example;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.time.Period;
-import java.util.stream.Stream;
 
 import static java.lang.System.out;
 
@@ -103,6 +101,14 @@ public class WorkingWithStreams {
         out.println(catMap);
         out.println("Список ключей " + catMap.keySet());
         out.println("Список значений " + catMap.values());
+
+        Set<Integer> set1 = Set.of(1, 2, 3);
+        Set<Integer> set2 = Set.of(0, 1, 2);
+
+        Set<Integer> set = symmetricDifference(set1, set2);
+
+        List<Integer> integerList = List.of(1,2,3,4,5,6,7);
+        List<Integer> integers = shuffleNumbers(integerList);
     }
     // создать метод, принимающий на вход список строк и выдающий список строк без строк "кот"
 
@@ -276,28 +282,28 @@ public class WorkingWithStreams {
 
         middleCatShow.setShowName(catShowList.stream()
                 .map(CatShow::getShowName)
-                        .distinct()
-                        .reduce("", (a, b)-> ( a += b.charAt(0))));
+                .distinct()
+                .reduce("", (a, b) -> (a += b.charAt(0))));
 
         middleCatShow.setPrizeSize(catShowList.stream()
                 .mapToInt(CatShow::getPrizeSize)
                 .sum());
 
-                            // Находим самую раннюю дату выставки
+        // Находим самую раннюю дату выставки
         LocalDate minDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .min(LocalDate::compareTo)
                 .orElseThrow());
 
-                            // Находим самую позднюю дату выставки
+        // Находим самую позднюю дату выставки
         LocalDate maxDate = (catShowList.stream()
                 .map(CatShow::getDate)
                 .max(LocalDate::compareTo)
                 .orElseThrow());
 
 
-        Period period= Period.between(minDate, maxDate) ;   // вычисляем период проведения выставок(YY,MM,DD)
-        long halfPeriodInDays =  period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
+        Period period = Period.between(minDate, maxDate);   // вычисляем период проведения выставок(YY,MM,DD)
+        long halfPeriodInDays = period.get(ChronoUnit.DAYS) / 2;   //вычисляем половину периода в днях
 
         LocalDate middleDate = minDate.plusDays(halfPeriodInDays);    // находим среднюю дату проведения выставок
 
@@ -306,7 +312,7 @@ public class WorkingWithStreams {
         middleCatShow.setPlace(catShowList.stream()
                 .map(CatShow::getPlace)
                 .distinct()
-                .reduce("", (a, b) -> a += b.substring(b.length()-2).toUpperCase()));
+                .reduce("", (a, b) -> a += b.substring(b.length() - 2).toUpperCase()));
 
         return middleCatShow;
 
@@ -350,19 +356,29 @@ public class WorkingWithStreams {
 
     public static Set<Cat> createSetCollections(List<Cat> catList) {
         Set<Cat> catSet = new HashSet<>(catList);
-        catSet.add(new Cat("Brown", "üyg", "pers"));
-        catSet.add(new Cat("pink", "shvaine"));
+        catSet.add(new Cat("Brown", "uyg", "pers"));
+        catSet.add(new Cat("pink", "Murzic"));
         catSet.add(new Cat("black", "pirate"));
         catSet.add(new Cat("white", "snowball"));
 
-        catSet.stream()
-                .filter(cat -> !cat.getName().equals("murzic"))
-                .forEachOrdered(out::println);
+//        catSet.stream()
+//                .filter(cat -> !cat.getName().equals("murzic"))
+//                .forEachOrdered(out::println);
+
+        catSet.removeIf(i -> i.getName().equals("Murzic"));
+
+//        for(Cat i: catSet){
+//            if (i.getName().equals("Murzic")){
+//                catSet.remove(i);
+//            }
+//
+//        }
 
         return catSet;
     }
 
     public static List<Cat> createCatList(Set<Cat> catSet) {
+
         return new ArrayList<>(catSet);
     }
 
@@ -373,4 +389,38 @@ public class WorkingWithStreams {
 
         return catMap;
     }
+
+    // разобрать очереди, стеки и массивы
+
+
+    public static Set<Integer> symmetricDifference(Set<Integer> set1, Set<Integer> set2) {
+
+        Set<Integer> twinkSet1 = new HashSet<>(set1);
+        Set<Integer> twinkSet2 = new HashSet<>(set2);
+
+
+        twinkSet1.removeAll(twinkSet2);
+        twinkSet2.removeAll(set1);
+        twinkSet1.addAll(twinkSet2);
+        out.println("результат вычитания сетов " + twinkSet1);
+        return twinkSet1;
+
+    }
+
+
+    public static List<Integer> shuffleNumbers(List<Integer> integerList) {
+
+        List<Integer> newList = new ArrayList<>();
+
+        for (int i = integerList.size() - 1; i > 0; i--) {
+            if (i % 2 != 0) {
+                newList.add(integerList.get(i));
+
+                out.print(integerList.get(i) + " ");
+            }
+
+        }
+        return newList;
+    }
 }
+

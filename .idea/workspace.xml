@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="Map, Set, List">
+    <list default="true" id="fdec8b7f-495b-4f9e-b716-32bea6cc742c" name="Changes" comment="Map, Set, List new">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/CatShow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +101,8 @@
       <workItem from="1658414773919" duration="13984000" />
       <workItem from="1658515524442" duration="6989000" />
       <workItem from="1658646735172" duration="18699000" />
+      <workItem from="1658687027706" duration="5476000" />
+      <workItem from="1658851251492" duration="10924000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен метод фильтрации котов по признакам, находящимся во вложенном объекте">
       <created>1658003638217</created>
@@ -197,8 +198,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/WorkingWithStreams.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="19" />
+          <line>110</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
